@@ -22,11 +22,35 @@ typedef struct{
 
 }LISTA;
 
+void iniciarLista (LISTA *lista){
+    lista->inicio = NULL;
+}
 
-void insere(LISTA* lista, int inimigo){}
+TIPOCHAVE insere(LISTA* lista, int inimigo){
+
+}
+
+INIMIGO buscaInimigo (LISTA *lista, TIPOCHAVE chave, INIMIGO *ant){
+    *ant = NULL;
+    INIMIGO atual;
+    atual = lista->inicio;
+}
+
 void exclui(){}
+
 void quantidade_intervalo(){}
-void quantidade(){}
+
+void quantidade(LISTA *lista){
+    INIMIGO *end = lista->inicio;
+    int tam = 0;
+    printf ("lista ");
+    while (end != NULL){
+        printf ("%d", end->ini.chave);
+        tam++;
+        end = end->proximo;
+    }
+    printf ("\n");
+}
 
 
 
@@ -37,7 +61,7 @@ int main (){
 	menu = 'Z';
 
 	LISTA* lista;
-	lista->inicio = NULL;
+	iniciarLista(lista);
 
 	printf("Quantos inimigos teremos inicialmente?\n");
 	scanf("%i", &inimigos_loop);
@@ -48,12 +72,6 @@ int main (){
         scanf("%i", inimigo);
         insere(lista, inimigo);
         loop++;
-	}
-
-	for(int x = 0; x < inimigos_loop; x ++){
-
-        insere(lista, inimigo);
-
 	}
 
 	while(menu != 'F'){
