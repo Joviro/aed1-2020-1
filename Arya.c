@@ -59,21 +59,21 @@ void remover(LISTA* lista, TIPOCHAVE chave){
 }
 
 void quantidade_intervalo(LISTA* lista, TIPOCHAVE a, TIPOCHAVE b){
-
+	
 }
 
 void quantidade_total(LISTA* lista){
 
     INIMIGO *end = lista->inicio;
     int tam = 0;
+    if(end == NULL) return;
     printf ("lista ");
     while (end != NULL){
-        printf ("%d", end->ini.chave);
+        printf ("%d ", end->ini.chave);
         tam++;
         end = end->proximo;
     }
     printf ("\n");
-
 }
 
 INIMIGO buscaInimigo (LISTA *lista, TIPOCHAVE chave, INIMIGO *ant){
@@ -104,19 +104,19 @@ int main (){
         }
 
 	while(menu != 'F'){
-	printf("Bem vindo ao menu:\nDigite I para adicionar um elemento\nDigite R para remover um elemento\nDigite C para mostrar os valores em um intervalo de elementos\nDigite M para mostrar todos os elementos da fila\nDigite F para finalizar o programa\n\n");
-	scanf("%c", &menu);
-	if(menu == 'I'){
-
-	   printf("Digite a chave do elemento e qual ser· o elemento anterior a ele: \n");
-	   int chave, anterior;
-	   insere(lista, chave, anterior);
-	}
-	else if(menu == 'R');
-	else if(menu == 'C');
-	else if(menu == 'M');
-	else printf("N„o existe essa operaÁ„o. Tente novamente!\n");
-
+		printf("Bem vindo ao menu:\nDigite I para adicionar um elemento\nDigite R para remover um elemento\nDigite C para mostrar os valores em um intervalo de elementos\nDigite M para mostrar todos os elementos da fila\nDigite F para finalizar o programa\n\n");
+		scanf("%c", &menu);
+		if(menu == 'I'){
+	   		printf("Digite a chave do elemento e qual ser√° o elemento anterior a ele: \n");
+	   		int chave, anterior;
+	   		insere(lista, chave, anterior);
+		}
+		else if(menu == 'R');
+		else if(menu == 'C');
+		else if(menu == 'M'){
+			quantidade_total(lista);	
+		}
+		else printf("N√£o existe essa opera√ß√£o. Tente novamente!\n");
 	}
 
     printf("fim\n");
