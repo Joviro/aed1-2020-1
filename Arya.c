@@ -21,7 +21,7 @@ void iniciarLista (LISTA *lista){
 
 void insere_primeiros(LISTA* lista, int inimigo){
 
-    LISTA* end = lista->inicio;
+    LISTA* end = lista;
     if(end == NULL){
 
       INIMIGO* inimigx = (INIMIGO*) malloc (sizeof(INIMIGO));
@@ -37,17 +37,17 @@ void insere_primeiros(LISTA* lista, int inimigo){
          inimigx = inimigx->proximo;
 
     }
-   INIMIGO* inimigox = (INIMIGO*) malloc (sizeof(INIMIGO));
-   inimigx->proximo = inimigox;
-   inimigox->proximo = NULL;
-   inimigox->ini.chave = inimigo;
+        INIMIGO* inimigox = (INIMIGO*) malloc (sizeof(INIMIGO));
+        inimigx->proximo = inimigox;
+        inimigox->proximo = NULL;
+        inimigox->ini.chave = inimigo;
 
-  }
+    }
 }
 
 void insere(LISTA* lista, int chave, int anterior){
 
-     LISTA* end = lista->inicio;
+     LISTA* end = lista;
      while(end != NULL){
 
      }
@@ -101,7 +101,7 @@ int main (){
         scanf("%i", &inimigo);
         insere_primeiros(lista, inimigo);
         loop++;
-        }
+    }
 
 	while(menu != 'F'){
 		printf("Bem vindo ao menu:\nDigite I para adicionar um elemento\nDigite R para remover um elemento\nDigite C para mostrar os valores em um intervalo de elementos\nDigite M para mostrar todos os elementos da fila\nDigite F para finalizar o programa\n\n");
@@ -123,4 +123,3 @@ int main (){
 
     return 0;
 }
-
