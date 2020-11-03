@@ -2,6 +2,11 @@
 #include <stdlib.h>
 
 
+// Iremos transformar o arquivo em lista e depois colocaremos a lista em forma de arquivo novamente.
+// Será organizado em: Datas, os novos serão postos abaixo do último do seu rank.
+
+
+
 typedef struct{
 
 	char conteudo[100];
@@ -62,7 +67,7 @@ int main (){
         if(menu == 1){
 
             printf("Qual o dia do agendamento? %i %i");    
-            adiciona_Agendamento(l, conteudo[100], categoria[20], comentario[100], horario_1, horario_2, rank, dia, mes, ano); 
+            adiciona_Agendamento(l, conteudo, categoria, comentario, horario_1, horario_2, rank, dia, mes, ano); 
         }
         //...
         else if(menu == 0){
