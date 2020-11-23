@@ -33,6 +33,49 @@ typedef struct{
 
 }LISTA;
 
+// EXCLUIR
+
+void mostra_Lista(LISTA* lista){
+    AGENDA* end = lista->inicio;
+    int x;
+
+    if(end == NULL){
+        printf("Lista vazia\n");
+        return;
+    }
+
+    while(end != NULL){
+
+        printf("Data: %i/%i/%i Horario: %i:%i Rank: %i ",end->reg.dia, end->reg.mes, end->reg.ano, end->reg.horario_1, end->reg.horario_2, end->reg.rank);
+        
+        printf("Conteudo: ");        
+
+        for(x = 0; x < 100; x++){
+            if(end->reg.conteudo[x] != ' ') printf("%c",end->reg.conteudo[x]);;
+        }
+
+        printf("Categoria: ");        
+        
+        for(x = 0; x < 20; x++){
+            if(end->reg.categoria[x] != ' ') printf("%c",end->reg.categoria[x]);;
+        }
+
+        printf("Comentario: ");        
+        
+        for(x = 0; x < 100; x++){
+            if(end->reg.comentario[x] != ' ') printf("%c",end->reg.comentario[x]);;
+        }
+
+        printf("\n");
+
+        end = end->proximo;
+     }
+     return;
+}
+
+
+// ...
+
 
 void adiciona_Agendamento(LISTA* lista, char conteudo[100], char categoria[20], char comentario[100], int horario_1, int horario_2, int rank, int dia, int mes, int ano){
 
@@ -96,36 +139,21 @@ int validaUnico(LISTA* lista,int dia, int mes, int ano, int horario_1, int horar
 
 
 int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horario_2,int rank){
+    
     int correto = 1;
+
 
     if(validaUnico(lista, dia, mes, ano, horario_1, horario_2) == 1){
 
-        printf("Ja existe um agendamento nesse dia e hora! Tente novamente!\n");
+        printf("<Erro de Sobrescrita> ------Ja existe um agendamento nesse dia e hora! Tente novamente!------\n");
 
         return 2 * 3 * 5;
     }
 
-    if(horario_1 > 23 || horario_1 < 0){
-
-        printf("As horas estao no formato errado. As horas sao contadas de 0 ate 23.\n");
-        correto = correto * 3;
-    }
-    if(horario_2 < 0 || horario_2 > 59){
-
-        printf("Os minutos estao no formato errado. Os minutos sao contados de 0 ate 59.\n");
-        correto = correto * 3;
-    }
-
-    if(mes > 12 || mes < 1){
-
-        printf("O mes esta no formato errado. Os meses sao contados de 1 ate 12.\n");
-        correto = correto * 2;
-
-    }
 
     if(dia > 31 || dia < 1){
 
-        printf("O dia esta no formato errado. Os dias sao contados de 1 ate 31, dependendo do mes.\n");
+        printf("<Erro de formato> ------O dia esta no formato errado. Os dias sao contados de 1 ate 31, dependendo do mes.------\n");
         correto = correto * 2;
     }
 
@@ -133,7 +161,7 @@ int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horar
 
         if(dia == 31){
 
-            printf("O dia esta no formato errado. O mes %i vai so ate dia 30.\n",mes);
+            printf("<Erro de formato> ------O dia esta no formato errado. O mes %i vai so ate dia 30.------\n",mes);
             correto = correto * 2;
 
         }
@@ -142,7 +170,7 @@ int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horar
     else if(mes == 2){
         if(dia > 29){
 
-            printf("O dia esta no formato errado. O mes %i vai so ate dia 29 (em anos bissextos).\n",mes);
+            printf("<Erro de formato> ------O dia esta no formato errado. O mes %i vai so ate dia 29 (em anos bissextos).------\n",mes);
             correto = correto * 2;
 
         }
@@ -152,15 +180,34 @@ int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horar
 
     if(ano < 2021 || ano > 2110){
 
-        printf("O ano esta no formato errado. O ano deve ser maior que 2021 e menor que 2110.\n");
+        printf("<Erro de formato> ------O ano esta no formato errado. O ano deve ser maior que 2021 e menor que 2110.------\n");
+        correto = correto * 2;
+
+    }
+
+    if(horario_1 > 23 || horario_1 < 0){
+
+        printf("<Erro de formato> ------As horas estao no formato errado. As horas sao contadas de 0 ate 23.------\n");
+        correto = correto * 3;
+    }
+    if(horario_2 < 0 || horario_2 > 59){
+
+        printf("<Erro de formato> ------Os minutos estao no formato errado. Os minutos sao contados de 0 ate 59.------\n");
+        correto = correto * 3;
+    }
+
+    if(mes > 12 || mes < 1){
+
+        printf("<Erro de formato> ------O mes esta no formato errado. Os meses sao contados de 1 ate 12.------\n");
         correto = correto * 2;
 
     }
 
 
+
     if(rank > 10 || rank < 0){
 
-        printf("O rank esta no formato errado. O rank sao contados de 0 ate 10.\n");
+        printf("<Erro de formato> ------O rank esta no formato errado. O rank sao contados de 0 ate 10.------\n");
         correto = correto * 5;
 
     }
@@ -177,13 +224,13 @@ void adiciona_Arquivo(LISTA* lista){
 
 int main (){
 
-    char menu = 'A';
     LISTA* lista = (LISTA*) malloc(sizeof(LISTA));
     lista->inicio = NULL;
-    char conteudo[100];
-    char categoria[20];
+    char menu = '6';
+    char conteudo[100] = "---";
+    char categoria[20] = "---";
     char lixos[20];
-    char comentario[100];
+    char comentario[100] = "---";
     char res[3] = "aba";
     char lixo;
     int horario_1, horario_2;
@@ -229,17 +276,15 @@ int main (){
                 gets(res);
 
                 while(strcmp(res,"Sim")!=0  && strcmp(res,"Nao")!=0){
-                    printf("Valor invalido! Digite \"Sim\" para adicionar um comentario ou \"Nao\" para nao adicionar.\n");
+                    printf("<Erro de formato> ------Valor invalido! Digite \"Sim\" para adicionar um comentario ou \"Nao\" para nao adicionar.------\n");
                     gets(res);
                 }
                 if(strcmp(res,"Sim") == 0){
                     printf("Digite o comentario:\n");
                     gets(comentario);
+                }
+                
                     adiciona_Agendamento(lista, conteudo, categoria, comentario, horario_1, horario_2, rank, dia, mes, ano);
-                }
-                else{
-                    adiciona_Agendamento(lista, conteudo, categoria, "<>", horario_1, horario_2, rank, dia, mes, ano);
-                }
 
             printf("\n\nAgendamento adicionado com sucesso!\n\n"); 
         }
@@ -256,6 +301,14 @@ int main (){
             printf("Ate mais!\n");  
             return 0;
         }
+
+
+        else if(menu == '8'){
+
+            mostra_Lista(lista);
+
+        }
+
 
         else printf("Numero invalido\n");
 
