@@ -315,7 +315,10 @@ int main (){
         }
 
 
-        else printf("Numero invalido\n");
+        else{ 
+		printf("Numero invalido\n");
+		system("pause");
+	}
 
         gets(lixos);
     } 
