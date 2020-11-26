@@ -217,7 +217,31 @@ int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horar
 
 
 void adiciona_Arquivo(LISTA* lista){
-    FILE *f = lista->inicio;
+    AGENDA *end = lista->inicio;
+    FILE *f = fopen("agendamentos.txt", "ab");
+
+    if (f == NULL){
+        printf ("erro na criação/abertura do arquivo!\n");
+        system ("pause");
+        return;
+    }
+
+    while (end->proximo != NULL){
+        fprintf ("agendamentos.txt", "%s", end->reg.conteudo);
+        fprintf ("agendamentos.txt", "%s", end->reg.categoria);
+        fprintf ("agendamentos.txt", "%s", end->reg.comentario);
+        fprintf ("agendamento.txt", "%i", end->reg.horario_1);
+        fprintf ("agendamento.txt", "%i", end->reg.horario_2);
+        fprintf ("agendamento.txt", "%i", end->reg.rank);
+        fprintf ("agendamento.txt", "%i", end->reg.dia);
+        fprintf ("agendamento.txt", "%i", end->reg.mes);
+        fprintf ("agendamento.txt", "%i", end->reg.ano);
+        end = end->proximo;
+    }
+
+    printf ("agendamentos salvos com sucesso !\n");
+    system ("pause");
+    return;
 
 }
 
@@ -315,10 +339,10 @@ int main (){
         }
 
 
-        else{ 
-		printf("Numero invalido\n");
-		system("pause");
-	}
+        else{
+            printf("Numero invalido\n");
+            system ("pause");
+        } 
 
         gets(lixos);
     } 
