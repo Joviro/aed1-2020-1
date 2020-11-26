@@ -217,6 +217,7 @@ int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horar
 
 
 void adiciona_Arquivo(LISTA* lista){
+    FILE *f = lista->inicio;
 
 }
 
@@ -292,13 +293,14 @@ int main (){
         else if(menu == '5'){
 
             printf("--------------------------------------------------------------------------------------------------------------\nA data deve ser da forma: dia/mes/ano.\nO horario deve ser da forma: horas:minutos.\nO rank e crescente na ordem de 0 ate 10.\nA categoria e uma frase curta que resume do que o agendamento se trata (Exemplos: Familia, Amigos, Festa...).\nO conteudo e o agendamento em si (Exemplos: Entrevista de emprego na empresa X, levar curriculo...).\nPor fim, o comentario vai da sua escolha.\n--------------------------------------------------------------------------------------------------------------\n");
-
+            system("pause");
         }
 
         
         else if(menu == '0'){
             adiciona_Arquivo(lista);
             printf("Ate mais!\n");  
+            system("pause");
             return 0;
         }
 
@@ -306,6 +308,7 @@ int main (){
         else if(menu == '8'){
 
             mostra_Lista(lista);
+            system ("pause");
 
         }
 
