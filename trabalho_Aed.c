@@ -221,7 +221,9 @@ void adiciona_Arquivo(LISTA* lista){
 
 }
 
+void ler_arquivo(){}
 
+void apaga_arquivo(){}
 
 int main (){
 
