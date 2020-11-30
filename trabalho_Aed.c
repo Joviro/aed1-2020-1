@@ -10,7 +10,7 @@
 
 typedef struct{
 
-	char conteudo[100];
+    char conteudo[100];
     char categoria[20];
     char comentario[100];
     int horario_1, horario_2;
@@ -21,14 +21,14 @@ typedef struct{
 
 typedef struct aux{
 
-	REGISTRO reg;
-	struct aux* proximo;
+    REGISTRO reg;
+    struct aux* proximo;
 
 } AGENDA;
 
 
 typedef struct{
-	
+    
     AGENDA* inicio;
 
 }LISTA;
@@ -76,13 +76,37 @@ void mostra_Lista(LISTA* lista){
 
 // ...
 
+void exclui_Agendamentos(LISTA* lista,int dia, int mes, int ano, int horario_1, int horario_2){
+
+    AGENDA* end = lista->inicio;
+    AGENDA* exclui = lista->inicio;
+
+    while(exclui->reg.dia != dia || exclui->reg.mes != mes || exclui->reg.ano != ano || exclui->reg.horario_1 != horario_1 || exclui->reg.horario_2 != horario_2){
+
+        end = exclui;
+        exclui = exclui->proximo;
+    }
+
+    if(exclui == lista->inicio){
+        lista->inicio = exclui->proximo;
+    }
+
+    else{
+
+        end->proximo = exclui->proximo;
+    }
+
+    free(exclui);
+}
+
 
 void adiciona_Agendamento(LISTA* lista, char conteudo[100], char categoria[20], char comentario[100], int horario_1, int horario_2, int rank, int dia, int mes, int ano){
 
     AGENDA* end = lista->inicio;
     AGENDA* novo = lista->inicio;
-    int i, j;
     AGENDA* agenda = (AGENDA*) malloc (sizeof(AGENDA));
+    int i, j;
+    
     for(i = 0; i < 100; i++){
 
         agenda->reg.conteudo[i] = conteudo[i];
@@ -111,16 +135,25 @@ void adiciona_Agendamento(LISTA* lista, char conteudo[100], char categoria[20], 
     }
 
     else{
-        while(end->reg.dia <= dia && end->reg.mes <= mes && end->reg.ano <= ano && end->reg.horario_1 <= horario_1 && end->reg.horario_2 <= horario_2 && end != NULL){
+        while(end != NULL && end->reg.dia <= dia && end->reg.mes <= mes && end->reg.ano <= ano && end->reg.horario_1 <= horario_1 && end->reg.horario_2 <= horario_2 ){
             novo = end;
             end = end->proximo;
         }
 
-        agenda-> proximo = novo->proximo;
-        if(novo == lista->inicio) lista->inicio = agenda;
-        else novo->proximo = agenda;
-    
+        if(end == lista->inicio){
+            lista->inicio = agenda;
+            agenda->proximo = novo;
+        }
+            
+        
+        else{
+        agenda-> proximo = novo->proximo;    
+        novo->proximo = agenda;
+       
+        }
     }
+
+
 
     return;
 }
@@ -138,18 +171,24 @@ int validaUnico(LISTA* lista,int dia, int mes, int ano, int horario_1, int horar
 }
 
 
-int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horario_2,int rank){
+int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horario_2,int rank, int caso){
     
     int correto = 1;
 
 
-    if(validaUnico(lista, dia, mes, ano, horario_1, horario_2) == 1){
+    if(validaUnico(lista, dia, mes, ano, horario_1, horario_2) == 1 && caso == 0){
 
         printf("<Erro de Sobrescrita> ------Ja existe um agendamento nesse dia e hora! Tente novamente!------\n");
 
         return 2 * 3 * 5;
     }
 
+    if(validaUnico(lista, dia, mes, ano, horario_1, horario_2) != 1 && caso == 1){
+
+        printf("<Erro de Exclusao> ------Nao existe um agendamento nesse dia e hora! Tente novamente!------\n");
+
+        return 2 * 3 * 5;
+    }
 
     if(dia > 31 || dia < 1){
 
@@ -219,6 +258,7 @@ int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horar
 void adiciona_Arquivo(LISTA* lista){
     AGENDA *end = lista->inicio;
     FILE *f = fopen("agendamentos.txt", "ab");
+    int x;
 
     if (f == NULL){
         printf ("erro na criação/abertura do arquivo!\n");
@@ -227,15 +267,29 @@ void adiciona_Arquivo(LISTA* lista){
     }
 
     while (end->proximo != NULL){
-        fprintf ("agendamentos.txt", "%s", end->reg.conteudo);
-        fprintf ("agendamentos.txt", "%s", end->reg.categoria);
-        fprintf ("agendamentos.txt", "%s", end->reg.comentario);
-        fprintf ("agendamento.txt", "%i", end->reg.horario_1);
-        fprintf ("agendamento.txt", "%i", end->reg.horario_2);
-        fprintf ("agendamento.txt", "%i", end->reg.rank);
-        fprintf ("agendamento.txt", "%i", end->reg.dia);
-        fprintf ("agendamento.txt", "%i", end->reg.mes);
-        fprintf ("agendamento.txt", "%i", end->reg.ano);
+
+        /*
+        for(x = 0; x < 100; x++){
+            if(end->reg.conteudo[x] != ' ') fprintf (f, "%s", end->reg.conteudo);;
+        }
+
+        for(x = 0; x < 20; x++){
+            if(end->reg.categoria[x] != ' ') fprintf (f, "%s", end->reg.categoria);
+        }
+
+        for(x = 0; x < 100; x++){
+            if(end->reg.conteudo[x] != ' ') fprintf (f, "%s", end->reg.comentario);
+        }
+        */
+        fprintf (f, "%s", end->reg.conteudo);
+        fprintf (f, "%s", end->reg.categoria);
+        fprintf (f, "%s", end->reg.comentario);
+        fprintf (f, "%i", end->reg.horario_1);
+        fprintf (f, "%i", end->reg.horario_2);
+        fprintf (f, "%i", end->reg.rank);
+        fprintf (f, "%i", end->reg.dia);
+        fprintf (f, "%i", end->reg.mes);
+        fprintf (f, "%i", end->reg.ano);
         end = end->proximo;
     }
 
@@ -263,11 +317,14 @@ int main (){
     int horario_1, horario_2;
     int rank;
     int dia, mes, ano;
-    int correto = 0;  
+    int correto = 0;
+    int loop = 0;  
    
     while(1){
 
-        printf("\nBem vindo ao menu!\nDigite:\n1 - para adicionar um agendamento.\n2 - para remover um agendamento.\n...\n5 - para o formato das funcoes.\n0 - para encerrar o progama.\n");
+        if(loop == 0) printf("*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n*Bem-vindo a sua agenda virtual!*\n*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n");
+        loop = 1;
+        printf("\nDigite:\n1 - para adicionar um agendamento na lista.\n2 - para remover um agendamento da lista.\n...\n5 - para o formato das funcoes.\n0 - para encerrar o progama e adicionar os agendamentos no arquivo.\n");
         scanf("%c",&menu);
 
         if(menu == '1'){
@@ -286,7 +343,7 @@ int main (){
                      printf("Qual o rank do agendamento?\n");
                      scanf("%i",&rank);
                     } 
-                    correto = validaAtributos(lista,dia,mes,ano,horario_1,horario_2,rank);
+                    correto = validaAtributos(lista,dia,mes,ano,horario_1,horario_2,rank,0);
                 }
 
                 correto = 0;
@@ -314,6 +371,32 @@ int main (){
                     adiciona_Agendamento(lista, conteudo, categoria, comentario, horario_1, horario_2, rank, dia, mes, ano);
 
             printf("\n\nAgendamento adicionado com sucesso!\n\n"); 
+        }
+
+
+        else if(menu == '2'){
+
+            if(lista->inicio != NULL){
+
+                while(correto != 1){
+
+                    if(correto % 2 == 0){
+                        printf("Qual a data do agendamento que deseja excluir?\n");
+                        scanf("%i %c %i %c %i",&dia,&lixo,&mes,&lixo,&ano);
+                    }
+                    if(correto % 3 == 0){    
+                        printf("Qual o horario do agendamento que deseja excluir?\n");
+                        scanf("%i %c %i",&horario_1,&lixo,&horario_2);
+                    }
+                    correto = validaAtributos(lista, dia, mes, ano, horario_1, horario_2, 0,1);
+                }
+
+                correto = 0;
+                exclui_Agendamentos(lista, dia, mes, ano, horario_1, horario_2);
+                printf("Exclusao realizada com sucesso!\n");
+            }
+
+            else printf("Impossivel excluir um elemento com a lista vazia\n");
         }
 
         else if(menu == '5'){
