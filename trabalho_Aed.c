@@ -7,6 +7,8 @@
 // Iremos criar uma lista e depois adicioná-la ao arquivo.
 // Será organizado em: Datas, os novos serão postos no seu rank organizado por horário.
 
+#define MAX 10000
+
 
 typedef struct{
 
@@ -294,14 +296,47 @@ void adiciona_Arquivo(LISTA* lista){
     }
 
     printf ("agendamentos salvos com sucesso !\n");
-    system ("pause");
+    fclose (f);
     return;
 
 }
 
-void ler_arquivo(){}
+void ler_abrir_arquivo(){
+    FILE *f;
+    int i;
+    char aux, exibe_arquivo[MAX];
+    if (f = fopen ("agendamentos.txt", "rb") == NULL) {
+        printf ("não existe agendamentos ou o arquivo salvo não existe\n");
+        system ("pause");
+        return;
+    } else {
+        aux = fgetc (f);
+        i = 0;
+        while (aux != EOF){
+            exibe_arquivo[i] = aux;
+            printf ("%c", exibe_arquivo[i]);
+            i++;
+            aux = fgetc (f);
+        }
+    }
+    fclose (f);
+    return;
+}
 
-void apaga_arquivo(){}
+void apaga_arquivo(){
+    FILE *f;
+
+    if (f = fopen ("agendamentos.txt", "rb") == NULL){
+        printf ("não existe arquivo a ser apagado\n");
+        system ("pause");
+        return;
+    } else {
+        fclose(f);
+        printf ("arquivo de agendamentos apagado !\n");
+        remove ("agendamentos.txt");
+        return;
+    }
+}
 
 int main (){
 
