@@ -269,20 +269,11 @@ void adiciona_Arquivo(LISTA* lista){
     }
 
     while (end->proximo != NULL){
+        while(end != NULL && end->reg.dia <= f.dia && end->reg.mes <= f.mes && end->reg.ano <= f.ano && end->reg.horario_1 <= f.horario_1 && end->reg.horario_2 <= f.horario_2){
 
-        /*
-        for(x = 0; x < 100; x++){
-            if(end->reg.conteudo[x] != ' ') fprintf (f, "%s", end->reg.conteudo);;
-        }
+            f = f->proximo;
 
-        for(x = 0; x < 20; x++){
-            if(end->reg.categoria[x] != ' ') fprintf (f, "%s", end->reg.categoria);
-        }
-
-        for(x = 0; x < 100; x++){
-            if(end->reg.conteudo[x] != ' ') fprintf (f, "%s", end->reg.comentario);
-        }
-        */
+        }    
         fprintf (f, "%s", end->reg.conteudo);
         fprintf (f, "%s", end->reg.categoria);
         fprintf (f, "%s", end->reg.comentario);
@@ -293,6 +284,7 @@ void adiciona_Arquivo(LISTA* lista){
         fprintf (f, "%i", end->reg.mes);
         fprintf (f, "%i", end->reg.ano);
         end = end->proximo;
+        file = file->inicio;
     }
 
     printf ("agendamentos salvos com sucesso !\n");
@@ -359,7 +351,7 @@ int main (){
 
         if(loop == 0) printf("*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n*Bem-vindo a sua agenda virtual!*\n*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n");
         loop = 1;
-        printf("\nDigite:\n1 - para adicionar um agendamento na lista.\n2 - para remover um agendamento da lista.\n...\n5 - para o formato das funcoes.\n0 - para encerrar o progama e adicionar os agendamentos no arquivo.\n");
+        printf("\nDigite:\n1 - para adicionar um agendamento na lista.\n2 - para remover um agendamento da lista.\n3 - para mostrar os agendamentos salvos\n4- mostrar os agendamentos que serão adicionados\n5 - para o formato das funcoes.\n6 - para apagar todos os agendamentos salvos.\n0 - para encerrar o programa.\n");
         scanf("%c",&menu);
 
         if(menu == '1'){
@@ -434,6 +426,24 @@ int main (){
             else printf("Impossivel excluir um elemento com a lista vazia\n");
         }
 
+
+        else if(menu == '3'){
+
+            printf("Tem certeza que deseja ver os agendamentos salvos? Os agendamentos presentes na lista serão gravados.\n Digite \"Sim\" ou \" Nao\"  \n");
+            gets(res);
+            while(strcmp(res,"Sim")!=0  && strcmp(res,"Nao")!=0){
+                    printf("<Erro de formato> ------Valor invalido! Digite \"Sim\" para mostrar os agendamentos ou \"Nao\" para nao mostrar.------\n");
+                    gets(res);
+                }
+                if(strcmp(res,"Sim") == 0){
+                    adiciona_Arquivo(lista);
+                    ler_abrir_arquivo();
+                }
+                else{
+                    printf("Entedido!\n");
+                }
+        }
+
         else if(menu == '5'){
 
             printf("--------------------------------------------------------------------------------------------------------------\nA data deve ser da forma: dia/mes/ano.\nO horario deve ser da forma: horas:minutos.\nO rank e crescente na ordem de 0 ate 10.\nA categoria e uma frase curta que resume do que o agendamento se trata (Exemplos: Familia, Amigos, Festa...).\nO conteudo e o agendamento em si (Exemplos: Entrevista de emprego na empresa X, levar curriculo...).\nPor fim, o comentario vai da sua escolha.\n--------------------------------------------------------------------------------------------------------------\n");
@@ -442,19 +452,52 @@ int main (){
 
         
         else if(menu == '0'){
-            adiciona_Arquivo(lista);
+
+            if(lista->inicio == NULL){}
+                  
+            else{
+
+                printf("Deseja salvar os agendamentos presentes na fila? Digite \"Sim\" para salvar ou \"Nao\" para nao salvar \n");
+                gets(res);
+                while(strcmp(res,"Sim")!=0  && strcmp(res,"Nao")!=0){
+                    printf("<Erro de formato> ------Valor invalido! Digite \"Sim\" para mostrar os agendamentos ou \"Nao\" para nao mostrar.------\n");
+                    gets(res);
+                }
+                if(strcmp(res,"Sim") == 0){
+                    adiciona_Arquivo(lista);
+                }
+                
+            }
             printf("Ate mais!\n");  
             system("pause");
-            return 0;
+            return 0; 
         }
 
 
-        else if(menu == '8'){
+        else if(menu == '4'){
 
             mostra_Lista(lista);
             system ("pause");
 
         }
+
+        else if(menu == '6'){
+
+            printf("Tem certeza que deseja apagar todo o arquivo? Digite \"Sim\" para apagar ou \"Nao\" para nao apagar\n");
+            gets(res);
+            while(strcmp(res,"Sim")!=0  && strcmp(res,"Nao")!=0){
+                printf("<Erro de formato> ------Valor invalido! Digite \"Sim\" para apagar ou \"Nao\" para nao apagar.------\n");
+                gets(res);
+            }
+            if(strcmp(res,"Sim") == 0){
+                apaga_arquivo();
+                 printf("Arquivo apagado com sucesso!\n");
+            }
+            else{
+                printf("Arquivo nao apagado\n");
+            }
+        }
+
 
 
         else{
