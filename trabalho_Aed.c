@@ -265,7 +265,7 @@ void adiciona_Arquivo(LISTA* lista){
     while (end->proximo != NULL){
         FILE *f;
         char nome_do_arquivo[100];
-        sprintf (nome_do_arquivo, "agendamentos %d/%d/%d.txt", end->reg.dia, end->reg.mes, end->reg.ano);
+        sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d/%d/%d.txt", end->reg.dia, end->reg.mes, end->reg.ano);
 
         if (f = fopen (nome_do_arquivo, "ab") == NULL){
             printf ("erro na criação/abertura do arquivo!\n");
@@ -332,6 +332,7 @@ void apaga_arquivo(){
         return;
     }
 }
+
 
 int main (){
 
