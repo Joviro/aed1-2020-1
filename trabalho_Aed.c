@@ -265,7 +265,7 @@ void adiciona_Arquivo(LISTA* lista){
     while (end->proximo != NULL){
         FILE *f;
         char nome_do_arquivo[100];
-        sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d/%d/%d.txt", end->reg.dia, end->reg.mes, end->reg.ano);
+        sprintf (nome_do_arquivo, "Agendamentos/agendamento %d/%d/%d %d:%d.txt", end->reg.dia, end->reg.mes, end->reg.ano, end->reg.horario_1, end->reg.horario_2);
 
         if (f = fopen (nome_do_arquivo, "ab") == NULL){
             printf ("erro na criação/abertura do arquivo!\n");
@@ -318,19 +318,25 @@ void ler_abrir_arquivo(){
     return;
 }
 
-void apaga_arquivo(){
+void apaga_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
     FILE *f;
+    char nome_do_arquivo[100];
+    sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d/%d/%d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
 
-    if (f = fopen ("agendamentos.txt", "rb") == NULL){
+    if (f = fopen (nome_do_arquivo, "rb") == NULL){
         printf ("não existe arquivo a ser apagado\n");
         system ("pause");
         return;
     } else {
         fclose(f);
-        printf ("arquivo de agendamentos apagado !\n");
-        remove ("agendamentos.txt");
+        printf ("arquivo de agendamento apagado !\n");
+        remove (nome_do_arquivo);
         return;
     }
+}
+
+void apaga_pasta (){
+
 }
 
 
@@ -487,15 +493,39 @@ int main (){
 
         else if(menu == '6'){
 
-            printf("Tem certeza que deseja apagar todo o arquivo? Digite \"Sim\" para apagar ou \"Nao\" para nao apagar\n");
+            printf("Tem certeza que deseja apagar todos os arquivos? Digite \"Sim\" para apagar ou \"Nao\" para nao apagar\n");
             gets(res);
             while(strcmp(res,"Sim")!=0  && strcmp(res,"Nao")!=0){
                 printf("<Erro de formato> ------Valor invalido! Digite \"Sim\" para apagar ou \"Nao\" para nao apagar.------\n");
                 gets(res);
             }
             if(strcmp(res,"Sim") == 0){
-                apaga_arquivo();
-                 printf("Arquivo apagado com sucesso!\n");
+                int dia, mes, ano, horario_1, horario_2;
+                sdata:
+                printf ("Digite a data e o horário do agendamento que deseje apagar (td na mesma linha, separado por espaços):\n");
+                scanf ("%d %d %d %d %d", dia, mes, ano, horario_1, horario_2);
+                if (dia < 1 || dia > 31){
+                    printf ("Valor/es inválido/s !\n");
+                    goto sdata;
+                }
+                if (mes < 1 || mes > 12){
+                    printf ("Valor/es inválido/s !\n");
+                    goto sdata;
+                }
+                if (ano < 2021){
+                    printf ("Valor/es Inválidos/s !\n");
+                    goto sdata;
+                }
+                if (horario_1 < 0 || horario_1 > 24){
+                    printf ("Valor/es Inválidos/s !\n");
+                    goto sdata;
+                }
+                if (horario_2 < 0 || horario_2 > 59){
+                    printf ("Valor/es Inválidos/s !\n");
+                    goto sdata;
+                }
+                apaga_arquivo(dia, mes, ano, horario_1, horario_2);
+                printf("Arquivo apagado com sucesso!\n");
             }
             else{
                 printf("Arquivo nao apagado\n");
