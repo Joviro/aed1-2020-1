@@ -259,21 +259,24 @@ int validaAtributos(LISTA* lista,int dia,int mes,int ano,int horario_1,int horar
 
 void adiciona_Arquivo(LISTA* lista){
     AGENDA *end = lista->inicio;
-    FILE *f = fopen("agendamentos.txt", "ab");
+    
     int x;
 
-    if (f == NULL){
-        printf ("erro na criação/abertura do arquivo!\n");
-        system ("pause");
-        return;
-    }
-
     while (end->proximo != NULL){
-        while(end != NULL && end->reg.dia <= f.dia && end->reg.mes <= f.mes && end->reg.ano <= f.ano && end->reg.horario_1 <= f.horario_1 && end->reg.horario_2 <= f.horario_2){
+        FILE *f;
+        char nome_do_arquivo[100];
+        sprintf (nome_do_arquivo, "agendamentos %d/%d/%d.txt", end->reg.dia, end->reg.mes, end->reg.ano);
+
+        if (f = fopen (nome_do_arquivo, "ab") == NULL){
+            printf ("erro na criação/abertura do arquivo!\n");
+            system ("pause");
+            return;
+        }
+        /*while(end != NULL && end->reg.dia <= f.dia && end->reg.mes <= f.mes && end->reg.ano <= f.ano && end->reg.horario_1 <= f.horario_1 && end->reg.horario_2 <= f.horario_2){
 
             f = f->proximo;
 
-        }    
+        }*/    
         fprintf (f, "%s", end->reg.conteudo);
         fprintf (f, "%s", end->reg.categoria);
         fprintf (f, "%s", end->reg.comentario);
@@ -284,11 +287,11 @@ void adiciona_Arquivo(LISTA* lista){
         fprintf (f, "%i", end->reg.mes);
         fprintf (f, "%i", end->reg.ano);
         end = end->proximo;
-        file = file->inicio;
+        fclose (f);
+        //file = file->inicio;
     }
 
     printf ("agendamentos salvos com sucesso !\n");
-    fclose (f);
     return;
 
 }
