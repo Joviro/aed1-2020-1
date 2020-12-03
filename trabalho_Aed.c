@@ -296,11 +296,12 @@ void adiciona_Arquivo(LISTA* lista){
 
 }
 
-void ler_abrir_arquivo(){
+void ler_abrir_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
     FILE *f;
     int i;
-    char aux, exibe_arquivo[MAX];
-    if (f = fopen ("agendamentos.txt", "rb") == NULL) {
+    char aux, exibe_arquivo[MAX], nome_do_arquivo[100];
+    sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d %d %d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
+    if (f = fopen (nome_do_arquivo, "rb") == NULL) {
         printf ("não existe agendamentos ou o arquivo salvo não existe\n");
         system ("pause");
         return;
@@ -447,7 +448,7 @@ int main (){
                 }
                 if(strcmp(res,"Sim") == 0){
                     adiciona_Arquivo(lista);
-                    ler_abrir_arquivo();
+                    ler_abrir_arquivo(dia, mes, ano, horario_1, horario_2);
                 }
                 else{
                     printf("Entedido!\n");
