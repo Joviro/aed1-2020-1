@@ -448,10 +448,35 @@ int main (){
                 }
                 if(strcmp(res,"Sim") == 0){
                     adiciona_Arquivo(lista);
+                    int dia, mes, ano, horario_1, horario_2;
+                sdata:
+                    printf ("Digite a data e o horário do agendamento que deseje visualizar (td na mesma linha, separado por espaços):\n");
+                    scanf ("%d %d %d %d %d", dia, mes, ano, horario_1, horario_2);
+                    if (dia < 1 || dia > 31){
+                        printf ("Valor/es inválido/s !\n");
+                        goto sdata;
+                    }
+                    if (mes < 1 || mes > 12){
+                        printf ("Valor/es inválido/s !\n");
+                        goto sdata;
+                    }
+                    if (ano < 2021){
+                        printf ("Valor/es Inválidos/s !\n");
+                        goto sdata;
+                    }
+                    if (horario_1 < 0 || horario_1 > 24){
+                        printf ("Valor/es Inválidos/s !\n");
+                        goto sdata;
+                    }
+                    if (horario_2 < 0 || horario_2 > 59){
+                        printf ("Valor/es Inválidos/s !\n");
+                        goto sdata;
+                    }
                     ler_abrir_arquivo(dia, mes, ano, horario_1, horario_2);
                 }
                 else{
                     printf("Entedido!\n");
+                    system ("pause");
                 }
         }
 
@@ -503,28 +528,28 @@ int main (){
             if(strcmp(res,"Sim") == 0){
                 int dia, mes, ano, horario_1, horario_2;
                 sdata:
-                printf ("Digite a data e o horário do agendamento que deseje apagar (td na mesma linha, separado por espaços):\n");
-                scanf ("%d %d %d %d %d", dia, mes, ano, horario_1, horario_2);
-                if (dia < 1 || dia > 31){
-                    printf ("Valor/es inválido/s !\n");
-                    goto sdata;
-                }
-                if (mes < 1 || mes > 12){
-                    printf ("Valor/es inválido/s !\n");
-                    goto sdata;
-                }
-                if (ano < 2021){
-                    printf ("Valor/es Inválidos/s !\n");
-                    goto sdata;
-                }
-                if (horario_1 < 0 || horario_1 > 24){
-                    printf ("Valor/es Inválidos/s !\n");
-                    goto sdata;
-                }
-                if (horario_2 < 0 || horario_2 > 59){
-                    printf ("Valor/es Inválidos/s !\n");
-                    goto sdata;
-                }
+                    printf ("Digite a data e o horário do agendamento que deseje apagar (td na mesma linha, separado por espaços):\n");
+                    scanf ("%d %d %d %d %d", dia, mes, ano, horario_1, horario_2);
+                    if (dia < 1 || dia > 31){
+                        printf ("Valor/es inválido/s !\n");
+                        goto sdata;
+                    }
+                    if (mes < 1 || mes > 12){
+                        printf ("Valor/es inválido/s !\n");
+                        goto sdata;
+                    }
+                    if (ano < 2021){
+                        printf ("Valor/es Inválidos/s !\n");
+                        goto sdata;
+                    }
+                    if (horario_1 < 0 || horario_1 > 24){
+                        printf ("Valor/es Inválidos/s !\n");
+                        goto sdata;
+                    }
+                    if (horario_2 < 0 || horario_2 > 59){
+                        printf ("Valor/es Inválidos/s !\n");
+                        goto sdata;
+                    }
                 apaga_arquivo(dia, mes, ano, horario_1, horario_2);
                 printf("Arquivo apagado com sucesso!\n");
             }
