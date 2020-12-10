@@ -265,10 +265,10 @@ void adiciona_Arquivo(LISTA* lista){
     while (end->proximo != NULL){
         FILE *f;
         char nome_do_arquivo[100];
-        sprintf (nome_do_arquivo, "Agendamentos/agendamento %d/%d/%d %d:%d.txt", end->reg.dia, end->reg.mes, end->reg.ano, end->reg.horario_1, end->reg.horario_2);
+        sprintf (nome_do_arquivo, "Agendamentos\\agendamento %d/%d/%d %d:%d.txt", end->reg.dia, end->reg.mes, end->reg.ano, end->reg.horario_1, end->reg.horario_2);
 
-        if (f = fopen (nome_do_arquivo, "ab") == NULL){
-            printf ("erro na criação/abertura do arquivo!\n");
+        if ((f = fopen (nome_do_arquivo, "a")) == NULL){
+            printf ("erro na criacao/abertura do arquivo!\n");
             system ("pause");
             return;
         }
@@ -291,7 +291,7 @@ void adiciona_Arquivo(LISTA* lista){
         //file = file->inicio;
     }
 
-    printf ("agendamentos salvos com sucesso !\n");
+    printf ("\nagendamentos salvos com sucesso !\n");
     return;
 
 }
@@ -300,9 +300,9 @@ void ler_abrir_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
     FILE *f;
     int i;
     char aux, exibe_arquivo[MAX], nome_do_arquivo[100];
-    sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d %d %d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
-    if (f = fopen (nome_do_arquivo, "rb") == NULL) {
-        printf ("não existe agendamentos ou o arquivo salvo não existe\n");
+    sprintf (nome_do_arquivo, "Agendamentos\\agendamentos %d/%d/%d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
+    if ((f = fopen (nome_do_arquivo, "r")) == NULL) {
+        printf ("não existe agendamentos ou o arquivo salvo nao existe\n");
         system ("pause");
         return;
     } else {
@@ -322,10 +322,10 @@ void ler_abrir_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
 void apaga_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
     FILE *f;
     char nome_do_arquivo[100];
-    sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d/%d/%d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
+    sprintf (nome_do_arquivo, "Agendamentos\\agendamentos %d/%d/%d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
 
-    if (f = fopen (nome_do_arquivo, "rb") == NULL){
-        printf ("não existe arquivo a ser apagado\n");
+    if ((f = fopen (nome_do_arquivo, "a")) == NULL){
+        printf ("nao existe arquivo a ser apagado\n");
         system ("pause");
         return;
     } else {
@@ -362,7 +362,7 @@ int main (){
 
         if(loop == 0) printf("*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n*Bem-vindo a sua agenda virtual!*\n*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n");
         loop = 1;
-        printf("\nDigite:\n1 - para adicionar um agendamento na lista.\n2 - para remover um agendamento da lista.\n3 - para mostrar os agendamentos salvos\n4- mostrar os agendamentos que serão adicionados\n5 - para o formato das funcoes.\n6 - para apagar todos os agendamentos salvos.\n0 - para encerrar o programa.\n");
+        printf("\nDigite:\n1 - para adicionar um agendamento na lista.\n2 - para remover um agendamento da lista.\n3 - para mostrar os agendamentos salvos\n4 - para o formato das funcoes.\n0 - para encerrar o programa.\n");
         scanf("%c",&menu);
 
         if(menu == '1'){
@@ -370,15 +370,15 @@ int main (){
                 while(correto != 1){
 
                     if(correto % 2 == 0){
-                        printf("Qual a data do agendamento?\n");
+                        printf("\nQual a data do agendamento?\n");
                         scanf("%i %c %i %c %i",&dia,&lixo,&mes,&lixo,&ano);
                     }
                     if(correto % 3 == 0){    
-                        printf("Qual o horario do agendamento?\n");
+                        printf("\nQual o horario do agendamento?\n");
                         scanf("%i %c %i",&horario_1,&lixo,&horario_2);
                     }
                     if(correto % 5 == 0){
-                     printf("Qual o rank do agendamento?\n");
+                     printf("\nQual o rank do agendamento?\n");
                      scanf("%i",&rank);
                     } 
                     correto = validaAtributos(lista,dia,mes,ano,horario_1,horario_2,rank,0);
@@ -388,13 +388,13 @@ int main (){
 
                 gets(lixos);
 
-                printf("Qual a categoria do agendamento?\n");
+                printf("\nQual a categoria do agendamento?\n");
                 gets(categoria);
 
-                printf("Qual o conteudo do agendamento?\n");
+                printf("\nQual o conteudo do agendamento?\n");
                 gets(conteudo);
 
-                printf("Deseja adicionar um comentario?\n");
+                printf("\nDeseja adicionar um comentario?\n");
                 gets(res);
 
                 while(strcmp(res,"Sim")!=0  && strcmp(res,"Nao")!=0){
@@ -406,7 +406,8 @@ int main (){
                     gets(comentario);
                 }
                 
-                    adiciona_Agendamento(lista, conteudo, categoria, comentario, horario_1, horario_2, rank, dia, mes, ano);
+                adiciona_Agendamento(lista, conteudo, categoria, comentario, horario_1, horario_2, rank, dia, mes, ano);
+                adiciona_Arquivo (lista);
 
             printf("\n\nAgendamento adicionado com sucesso!\n\n"); 
         }
@@ -449,28 +450,28 @@ int main (){
                 if(strcmp(res,"Sim") == 0){
                     adiciona_Arquivo(lista);
                     int dia, mes, ano, horario_1, horario_2;
-                sdata:
-                    printf ("Digite a data e o horário do agendamento que deseje visualizar (td na mesma linha, separado por espaços):\n");
+                rdata:
+                    printf ("Digite a data e o horario do agendamento que deseje visualizar (td na mesma linha, separado por espacos):\n");
                     scanf ("%d %d %d %d %d", dia, mes, ano, horario_1, horario_2);
                     if (dia < 1 || dia > 31){
                         printf ("Valor/es inválido/s !\n");
-                        goto sdata;
+                        goto rdata;
                     }
                     if (mes < 1 || mes > 12){
                         printf ("Valor/es inválido/s !\n");
-                        goto sdata;
+                        goto rdata;
                     }
                     if (ano < 2021){
                         printf ("Valor/es Inválidos/s !\n");
-                        goto sdata;
+                        goto rdata;
                     }
                     if (horario_1 < 0 || horario_1 > 24){
                         printf ("Valor/es Inválidos/s !\n");
-                        goto sdata;
+                        goto rdata;
                     }
                     if (horario_2 < 0 || horario_2 > 59){
                         printf ("Valor/es Inválidos/s !\n");
-                        goto sdata;
+                        goto rdata;
                     }
                     ler_abrir_arquivo(dia, mes, ano, horario_1, horario_2);
                 }
