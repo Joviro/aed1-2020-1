@@ -265,9 +265,9 @@ void adiciona_Arquivo(LISTA* lista){
     while (end->proximo != NULL){
         FILE *f;
         char nome_do_arquivo[100];
-        sprintf (nome_do_arquivo, "Agendamentos\\agendamento %d/%d/%d %d:%d.txt", end->reg.dia, end->reg.mes, end->reg.ano, end->reg.horario_1, end->reg.horario_2);
+        sprintf (nome_do_arquivo, "Agendamentos/agendamento %d/%d/%d.txt", end->reg.dia, end->reg.mes, end->reg.ano);
 
-        if ((f = fopen (nome_do_arquivo, "a")) == NULL){
+        if ((f = fopen (nome_do_arquivo, "ab")) == NULL){
             printf ("erro na criacao/abertura do arquivo!\n");
             system ("pause");
             return;
@@ -296,12 +296,12 @@ void adiciona_Arquivo(LISTA* lista){
 
 }
 
-void ler_abrir_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
+void ler_abrir_arquivo(int dia, int mes, int ano){
     FILE *f;
     int i;
     char aux, exibe_arquivo[MAX], nome_do_arquivo[100];
-    sprintf (nome_do_arquivo, "Agendamentos\\agendamentos %d/%d/%d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
-    if ((f = fopen (nome_do_arquivo, "r")) == NULL) {
+    sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d/%d/%d.txt", dia, mes, ano);
+    if ((f = fopen (nome_do_arquivo, "rb")) == NULL) {
         printf ("não existe agendamentos ou o arquivo salvo nao existe\n");
         system ("pause");
         return;
@@ -319,10 +319,10 @@ void ler_abrir_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
     return;
 }
 
-void apaga_arquivo(int dia, int mes, int ano, int horario_1, int horario_2){
+void apaga_arquivo(int dia, int mes, int ano){
     FILE *f;
     char nome_do_arquivo[100];
-    sprintf (nome_do_arquivo, "Agendamentos\\agendamentos %d/%d/%d %d:%d.txt", dia, mes, ano, horario_1, horario_2);
+    sprintf (nome_do_arquivo, "Agendamentos/agendamentos %d/%d/%d.txt", dia, mes, ano);
 
     if ((f = fopen (nome_do_arquivo, "a")) == NULL){
         printf ("nao existe arquivo a ser apagado\n");
@@ -362,7 +362,7 @@ int main (){
 
         if(loop == 0) printf("*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n*Bem-vindo a sua agenda virtual!*\n*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*\n");
         loop = 1;
-        printf("\nDigite:\n1 - para adicionar um agendamento na lista.\n2 - para remover um agendamento da lista.\n3 - para mostrar os agendamentos salvos\n4 - para o formato das funcoes.\n0 - para encerrar o programa.\n");
+        printf("\nDigite:\n1 - para adicionar um agendamento na lista.\n2 - para remover um agendamento da lista.\n3 - mostrar os agendamentos salvos ate o moemento\n4 - mostrar os agendamentos salvos em arquivo\n5 - mostrar o formato das funções\n0 - para encerrar o programa.\n");
         scanf("%c",&menu);
 
         if(menu == '1'){
@@ -449,10 +449,10 @@ int main (){
                 }
                 if(strcmp(res,"Sim") == 0){
                     adiciona_Arquivo(lista);
-                    int dia, mes, ano, horario_1, horario_2;
+                    int dia, mes, ano;
                 rdata:
-                    printf ("Digite a data e o horario do agendamento que deseje visualizar (td na mesma linha, separado por espacos):\n");
-                    scanf ("%d %d %d %d %d", dia, mes, ano, horario_1, horario_2);
+                    printf ("Digite a data dos agendamentos que deseje visualizar (tudo na mesma linha, separado por espacos):\n");
+                    scanf ("%d %d %d %d %d", dia, mes, ano);
                     if (dia < 1 || dia > 31){
                         printf ("Valor/es inválido/s !\n");
                         goto rdata;
@@ -465,15 +465,7 @@ int main (){
                         printf ("Valor/es Inválidos/s !\n");
                         goto rdata;
                     }
-                    if (horario_1 < 0 || horario_1 > 24){
-                        printf ("Valor/es Inválidos/s !\n");
-                        goto rdata;
-                    }
-                    if (horario_2 < 0 || horario_2 > 59){
-                        printf ("Valor/es Inválidos/s !\n");
-                        goto rdata;
-                    }
-                    ler_abrir_arquivo(dia, mes, ano, horario_1, horario_2);
+                    ler_abrir_arquivo(dia, mes, ano);
                 }
                 else{
                     printf("Entedido!\n");
@@ -520,17 +512,17 @@ int main (){
 
         else if(menu == '6'){
 
-            printf("Tem certeza que deseja apagar todos os arquivos? Digite \"Sim\" para apagar ou \"Nao\" para nao apagar\n");
+            printf("Tem certeza que deseja apagar todos os agendamentos de um dia? Digite \"Sim\" para apagar ou \"Nao\" para nao apagar\n");
             gets(res);
             while(strcmp(res,"Sim")!=0  && strcmp(res,"Nao")!=0){
                 printf("<Erro de formato> ------Valor invalido! Digite \"Sim\" para apagar ou \"Nao\" para nao apagar.------\n");
                 gets(res);
             }
             if(strcmp(res,"Sim") == 0){
-                int dia, mes, ano, horario_1, horario_2;
+                int dia, mes, ano;
                 sdata:
-                    printf ("Digite a data e o horário do agendamento que deseje apagar (td na mesma linha, separado por espaços):\n");
-                    scanf ("%d %d %d %d %d", dia, mes, ano, horario_1, horario_2);
+                    printf ("Digite a data dos agendamentos que deseje apagar (td na mesma linha, separado por espaços):\n");
+                    scanf ("%d %d %d %d %d", dia, mes, ano);
                     if (dia < 1 || dia > 31){
                         printf ("Valor/es inválido/s !\n");
                         goto sdata;
@@ -543,15 +535,7 @@ int main (){
                         printf ("Valor/es Inválidos/s !\n");
                         goto sdata;
                     }
-                    if (horario_1 < 0 || horario_1 > 24){
-                        printf ("Valor/es Inválidos/s !\n");
-                        goto sdata;
-                    }
-                    if (horario_2 < 0 || horario_2 > 59){
-                        printf ("Valor/es Inválidos/s !\n");
-                        goto sdata;
-                    }
-                apaga_arquivo(dia, mes, ano, horario_1, horario_2);
+                apaga_arquivo(dia, mes, ano);
                 printf("Arquivo apagado com sucesso!\n");
             }
             else{
